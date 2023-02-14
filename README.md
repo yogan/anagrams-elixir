@@ -3,20 +3,17 @@
 Implementation of the anagram example for Elixir processes from:
 https://samuelmullen.com/articles/elixir-processes-send-and-receive
 
-## Installation
+## Usage
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `anagrams` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:anagrams, "~> 0.1.0"}
-  ]
-end
+```sh
+mix compile
+iex -S mix
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/anagrams](https://hexdocs.pm/anagrams).
+```elixir
+iex(1)> pid = spawn Accumulator, :loop, []
+iex(1)> Anagrammar.build_list pid
+iex(1)> Anagrammar.get_list pid
+```
 
+To apply code changes, you can also keep `iex` running and call `recompile()`.
