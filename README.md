@@ -14,6 +14,10 @@ iex -S mix
 iex(1)> pid = spawn Accumulator, :loop, []
 iex(1)> Anagrammar.build_list pid
 iex(1)> Anagrammar.get_list pid
+
+# German anagrams:
+iex(1)> Anagrammar.build_list pid, :de
+iex(1)> Anagrammar.get_list pid
 ```
 
 To apply code changes, you can also keep `iex` running and call `recompile()`.

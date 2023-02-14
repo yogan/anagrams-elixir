@@ -6,11 +6,12 @@ defmodule Anagrammar do
   """
 
   # When missing, install with: sudo apt install wngerman wamerican
-  # @dictionary_de "/usr/share/dict/ngerman"
+  @dictionary_de "/usr/share/dict/ngerman"
   @dictionary_en "/usr/share/dict/american-english"
 
-  def build_list(accumulator_pid) do
-    words()
+  def build_list(accumulator_pid, lang \\ :en) do
+    send(accumulator_pid, {self(), :clear})
+    words(lang)
     |> Enum.each(&add_anagram(accumulator_pid, &1))
   end
 
@@ -24,8 +25,13 @@ defmodule Anagrammar do
     end
   end
 
-  defp words do
-    File.read!(@dictionary_en)
+  defp words(lang) do
+    case (lang) do
+      :de -> @dictionary_de
+      :en -> @dictionary_en
+      _ -> raise "Unknown language"
+    end
+    |> File.read!()
     |> String.split("\n")
   end
 
@@ -65,6 +71,10 @@ defmodule Accumulator do
       {from, :list} ->
         send(from, {:ok, list_anagrams(anagrams)})
         loop(anagrams)
+
+      {from, :clear} ->
+        send(from, :ok)
+        loop(%{})
     end
   end
 
